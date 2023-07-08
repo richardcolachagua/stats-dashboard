@@ -7,23 +7,23 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Paper,
   Box,
   Typography,
-  Paper,
 } from "@mui/material";
 
-function BaseballStats() {
-  const [stats, setStats] = useState([]);
+function PlayerStats() {
+  const [playerStats, setPlayerStats] = useState([]);
 
   useEffect(() => {
     axios
-      .get("https://statapi.mlb.com/api/v1/teams/143/roster", {
+      .get("https://statsapi.mlb.com/api/v1/people/54361/stats?group=hitting", {
         headers: {
           "Ocp-Apim-Subscription-Key": "YOUR_API_KEY_HERE",
         },
       })
       .then((response) => {
-        setStats(response.data.roster);
+        setPlayerStats(response.data.stats[0].splits);
       })
       .catch((error) => {
         console.log(error);
@@ -32,25 +32,27 @@ function BaseballStats() {
   return (
     <Box>
       <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
-        Baseball Stats
+        Player Stats
       </Typography>
       <TableContainer component={Paper}>
-        <Table>
+        <Table sx={{ minWidth: 650 }}>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Position</TableCell>
-              <TableCell>Number</TableCell>
+              <TableCell>Season</TableCell>
+              <TableCell>Average</TableCell>
+              <TableCell>Home</TableCell>
+              <TableCell>RBIs</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {stats.map((player) => (
-              <TableRow key={player.person.id}>
+            {playerStats.map((stat) => (
+              <TableRow key={stat.season}>
                 <TableCell component="th" scope="row">
-                  {player.person.fullName}
+                  {stat.season}
                 </TableCell>
-                <TableCell>{player.position.name}</TableCell>
-                <TableCell>{player.jerseyNumber}</TableCell>
+                <TableCell>{stat.stat.avg}</TableCell>
+                <TableCell>{stat.stat.hr}</TableCell>
+                <TableCell>{stat.stat.rbi}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -59,5 +61,4 @@ function BaseballStats() {
     </Box>
   );
 }
-
-export default BaseballStats;
+export default PlayerStats;
