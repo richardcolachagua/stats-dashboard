@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { fetchPlayerStats } from "../Backend/api";
 import {
   Table,
   TableBody,
@@ -16,21 +16,15 @@ function PlayerStats() {
   const [playerStats, setPlayerStats] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("https://statsapi.mlb.com/api/v1/people/54361/stats?group=hitting", {
-        headers: {
-          "X-RapidAPI-Key":
-            "b3dd72f6dbmsh95bbf8a55ef2b53p190f0fjsn0dd538ebb8d7",
-          "X-RapidAPI-Host": "mlb-data.p.rapidapi.com",
-        },
-      })
-      .then((response) => {
-        setPlayerStats(response.data.stats[0].splits);
+    fetchPlayerStats()
+      .then((data) => {
+        setPlayerStats(data.stats[0].splits);
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
       });
   }, []);
+
   return (
     <Box>
       <Typography sx={{ fontSize: 24, fontWeight: "bold" }}>
