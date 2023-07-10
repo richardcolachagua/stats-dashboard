@@ -19,7 +19,9 @@ function PlayerStats() {
     axios
       .get("https://statsapi.mlb.com/api/v1/people/54361/stats?group=hitting", {
         headers: {
-          "Ocp-Apim-Subscription-Key": "YOUR_API_KEY_HERE",
+          "X-RapidAPI-Key":
+            "b3dd72f6dbmsh95bbf8a55ef2b53p190f0fjsn0dd538ebb8d7",
+          "X-RapidAPI-Host": "mlb-data.p.rapidapi.com",
         },
       })
       .then((response) => {

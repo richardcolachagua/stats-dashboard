@@ -55,3 +55,5 @@ function LeagueLeaders() {
     </Box>
   );
 }
+
+export default LeagueLeaders;
