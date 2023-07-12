@@ -16,7 +16,7 @@ function TeamInfo() {
       url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-team-info/v1/data",
       params: { id: "1" },
       headers: {
-        "X-RapidAPI-Key": "b3dd72f6dbmsh95bbf8a55ef2b53p190f0fjsn0dd538ebb8d7",
+        "X-RapidAPI-Key": API_KEY,
         "X-RapidAPI-Host": "mlb-sport-live-data-api.p.rapidapi.com",
       },
     };
@@ -26,9 +26,22 @@ function TeamInfo() {
       console.log(response.data);
 
       if (response.data) {
-        const { teamName } = response.data;
+        const {
+          displayName,
+          clubhouse,
+          logo,
+          recordSummary,
+          seasonSummary,
+          standingSummary,
+        } = response.data;
+
         const teamData = {
-          teamName,
+          displayName,
+          clubhouse,
+          logo,
+          recordSummary,
+          seasonSummary,
+          standingSummary,
         };
 
         setTeamInfo(teamData);
@@ -41,7 +54,25 @@ function TeamInfo() {
     return <CircularProgress />;
   }
 
-  return <Box></Box>;
+  return (
+    <Box>
+      <Typography variant="h2" fontWeight="bold">
+        Team Info
+      </Typography>
+      <Typography variant="h6">Display Name: {teamInfo.displayName}</Typography>
+      <Typography variant="h6">Clubhouse: {teamInfo.clubhouse}</Typography>
+      <Typography variant="h6">Logo: {teamInfo.logo}</Typography>
+      <Typography variant="h6">
+        Record Summary: {teamInfo.recordSummary}
+      </Typography>
+      <Typography variant="h6">
+        Season Summary: {teamInfo.seasonSummary}
+      </Typography>
+      <Typography variant="h6">
+        Standing Summary: {teamInfo.standingSummary}
+      </Typography>
+    </Box>
+  );
 }
 
 export default TeamInfo;
