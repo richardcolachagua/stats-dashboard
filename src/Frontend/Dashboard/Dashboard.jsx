@@ -1,11 +1,11 @@
 import React from "react";
-import PlayerInfo from "./PlayerInfo";
 import { Box } from "@mui/material";
+import SideBar from "./SideBar";
 
 const Dashboard = () => {
   return (
     <Box sx={{ padding: "2rem" }}>
-      <PlayerInfo />
+      <SideBar />
     </Box>
   );
 };
