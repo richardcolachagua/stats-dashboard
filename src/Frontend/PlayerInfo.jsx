@@ -51,13 +51,15 @@ function PlayerInfo() {
 
   return (
     <Box>
-      <Typography variant="h4">Player Info</Typography>
-      <Typography>
+      <Typography variant="h2" fontWeight="bold">
+        Player Info
+      </Typography>
+      <Typography variant="h6">
         Name: {playerInfo.firstName} {playerInfo.lastName}
       </Typography>
-      <Typography>Position: {playerInfo.position.name}</Typography>
-      <Typography>Height: {playerInfo.height}</Typography>
-      <Typography>Weight: {playerInfo.weight}</Typography>
+      <Typography variant="h6">Position: {playerInfo.position.name}</Typography>
+      <Typography variant="h6">Height: {playerInfo.height}</Typography>
+      <Typography variant="h6">Weight: {playerInfo.weight}</Typography>
     </Box>
   );
 }
