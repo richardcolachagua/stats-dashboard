@@ -10,6 +10,7 @@ import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import PeopleIcon from "@mui/icons-material/People";
 import GroupIcon from "@mui/icons-material/Group";
 import Box from "@mui/material/Box";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -26,59 +27,34 @@ const SideBar = () => {
     setIsOpen(open);
   };
 
-  const handleMenuClick = () => {
-    // Handle menu item click logic here
-  };
-
   return (
     <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
-      <Box
-        sx={{
-          width: "200px",
-        }}
-        role="presentation"
-        onClick={toggleDrawer(false)}
-        onKeyDown={toggleDrawer(false)}
-      >
-        <List>
-          <ListItem
-            sx={{ paddingLeft: 2, paddingRight: 2 }}
-            onClick={handleMenuClick}
-          >
-            <ListItemIcon>
-              <AccountBoxIcon />
-            </ListItemIcon>
-            <ListItemText primary="TeamInfo" />
-          </ListItem>
-          <ListItem
-            sx={{ paddingLeft: 2, paddingRight: 2 }}
-            onClick={handleMenuClick}
-          >
-            <ListItemIcon>
-              <DirectionsRunIcon />
-            </ListItemIcon>
-            <ListItemText primary="PlayerInfo" />
-          </ListItem>
-          <ListItem
-            sx={{ paddingLeft: 2, paddingRight: 2 }}
-            onClick={handleMenuClick}
-          >
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="AllPlayers" />
-          </ListItem>
-          <ListItem
-            sx={{ paddingLeft: 2, paddingRight: 2 }}
-            onClick={handleMenuClick}
-          >
-            <ListItemIcon>
-              <GroupIcon />
-            </ListItemIcon>
-            <ListItemText primary="AllTeams" />
-          </ListItem>
-        </List>
-      </Box>
+      <List>
+        <ListItem button component={Link} to="/team-info">
+          <ListItemIcon>
+            <AccountBoxIcon />
+          </ListItemIcon>
+          <ListItemText primary="TeamInfo" />
+        </ListItem>
+        <ListItem button component={Link} to="/player-info">
+          <ListItemIcon>
+            <DirectionsRunIcon />
+          </ListItemIcon>
+          <ListItemText primary="PlayerInfo" />
+        </ListItem>
+        <ListItem button component={Link} to="/AllPlayers">
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="AllPlayers" />
+        </ListItem>
+        <ListItem button component={Link}>
+          <ListItemIcon>
+            <GroupIcon />
+          </ListItemIcon>
+          <ListItemText primary="AllTeams" />
+        </ListItem>
+      </List>
       <Typography variant="h5">Sidebar Content</Typography>
     </Drawer>
   );
