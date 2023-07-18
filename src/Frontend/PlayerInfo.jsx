@@ -56,17 +56,39 @@ function PlayerInfo() {
   };
 
   return (
-    <Box>
-      <Typography variant="h2" fontWeight="bold">
+    <Box
+      sx={{
+        opacity: 0,
+        animation: "fadeIn 1s ease-in-out forwards",
+        "@keyframes fadeIn": {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+      }}
+    >
+      <Typography
+        variant="h2"
+        sx={{ fontWeight: "bold", fontSize: "2.5rem", color: "#004687" }}
+      >
         Player Info
       </Typography>
-      <Typography variant="h6">
+      <Typography sx={{ fontSize: "1.2rem" }}>
         Name: {playerInfo.firstName} {playerInfo.lastName}
       </Typography>
-      <Typography variant="h6">Position: {playerInfo.position.name}</Typography>
-      <Typography variant="h6">Height: {playerInfo.height}</Typography>
-      <Typography variant="h6">Weight: {playerInfo.weight}</Typography>
-      <Button variant="contained" onClick={handlePlayerChange}>
+      <Typography sx={{ fontStyle: "italic" }}>
+        Position: {playerInfo.position.name}
+      </Typography>
+      <Typography sx={{ fontStyle: "italic" }}>
+        Height: {playerInfo.height}
+      </Typography>
+      <Typography sx={{ fontSize: "1.2rem" }}>
+        Weight: {playerInfo.weight}
+      </Typography>
+      <Button
+        variant="contained"
+        sx={{ marginTop: "!rem", backgroundColor: "#E8128" }}
+        onClick={handlePlayerChange}
+      >
         Change Player
       </Button>
     </Box>

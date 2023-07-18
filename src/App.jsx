@@ -3,12 +3,14 @@ import PlayerInfo from "./Frontend/PlayerInfo";
 import TeamInfo from "./Frontend/TeamInfo";
 import Dashboard from "./Frontend/Dashboard/Dashboard";
 import SideBar from "./Frontend/Dashboard/SideBar";
+import AllTeams from "./Frontend/AllTeams";
 
 function App() {
   return (
     <div>
       <BrowserRouter>
         <Routes>
+          <Route path="/AllTeams" element={<AllTeams />} />
           <Route path="/TeamInfo" element={<TeamInfo />} />
           <Route path="/PlayerInfo" element={<PlayerInfo />} />
           <Route path="/Dashboard" element={<Dashboard />} />

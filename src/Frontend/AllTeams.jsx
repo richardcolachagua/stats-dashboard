@@ -27,6 +27,7 @@ function AllTeams() {
       console.log(response.data);
 
       if (response.data && response.data.team) {
+        //check if the 'team' property is present in the response data
         const { displayName, location, color } = response.data.team;
 
         const teamData = {
@@ -47,21 +48,43 @@ function AllTeams() {
   if (!allTeams) {
     return <CircularProgress />;
   }
-  const handlePlayerChange = () => {
-    const newTeamId = "12345";
+  const handleTeamChange = () => {
+    const newTeamId = teamId;
     setTeamId(newTeamId);
   };
 
   return (
-    <Box>
-      <Typography variant="h2" fontWeight="bold">
+    <Box
+      sx={{
+        opacity: 0,
+        animation: "fadeIn 1s ease-in-out forwards",
+        "@keyframes fadeIn": {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+      }}
+    >
+      <Typography
+        variant="h2"
+        sx={{ fontWeight: "bold", fontSize: "2.5rem", color: "#004687" }}
+      >
         Team Info
       </Typography>
-      <Typography variant="h6">Display Name: {allTeams.displayName}</Typography>
-      <Typography variant="h6">Location: {allTeams.location}</Typography>
-      <Typography variant="h6">Color: {allTeams.color}</Typography>
-      <Button variant="contained" onClick={handlePlayerChange}>
-        Change Player
+      <Typography sx={{ fontSize: "1.2rem" }}>
+        Display Name: {allTeams.displayName}
+      </Typography>
+      <Typography sx={{ fontStyle: "italic" }}>
+        Location: {allTeams.location}
+      </Typography>
+      <Typography sx={{ fontSize: "1.2rem" }}>
+        Color: {allTeams.color}
+      </Typography>
+      <Button
+        variant="contained"
+        sx={{ marginTop: "1rem", backgroundColor: "#E81828" }}
+        onClick={handleTeamChange}
+      >
+        Change Team
       </Button>
     </Box>
   );

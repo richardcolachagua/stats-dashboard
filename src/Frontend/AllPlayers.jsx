@@ -8,15 +8,15 @@ function AllPlayers() {
   const [allPlayers, setAllPlayers] = useState();
 
   useEffect(() => {
-    fetchPlayerProfile(playerId);
-  }, [playerId]);
-  async function fetchPlayerProfile(playerId) {
+    fetchPlayerProfile(allPlayers);
+  }, [allPlayers]);
+  async function fetchPlayerProfile(allPlayers) {
     const options = {
       method: "GET",
-      url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-player-info/v1/data",
-      params: { id: playerId },
+      url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-player-listing/v1/data",
+      params: { id: "1" },
       headers: {
-        "X-RapidAPI-Key": API_KEY,
+        "X-RapidAPI-Key": "b3dd72f6dbmsh95bbf8a55ef2b53p190f0fjsn0dd538ebb8d7",
         "X-RapidAPI-Host": "mlb-sport-live-data-api.p.rapidapi.com",
       },
     };
@@ -26,12 +26,45 @@ function AllPlayers() {
       console.log(response.data);
 
       if (response.data && response.data) {
+        const {
+          firstName,
+          lastName,
+          fullName,
+          displayName,
+          shortName,
+          weight,
+          displayWeight,
+          height,
+          displayHeight,
+          age,
+          dateOfBirth,
+          debutYear,
+        } = response.data;
+
+        const AllPlayerData = {
+          firstName,
+          lastName,
+          fullName,
+          displayName,
+          shortName,
+          weight,
+          displayWeight,
+          height,
+          displayHeight,
+          age,
+          dateOfBirth,
+          debutYear,
+        };
+        setAllPlayers();
+      } else {
+        console.error();
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
+
     return (
-      <Box>
+      <Box sx={{}}>
         <Typography variant="h2" fontWeight="bold">
           All Team
         </Typography>
