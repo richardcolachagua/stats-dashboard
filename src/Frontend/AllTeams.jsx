@@ -5,38 +5,37 @@ import { Box, Typography, CircularProgress, Button } from "@mui/material";
 const API_KEY = process.env.REACT_APP_BASEBALL_API_KEY;
 
 function AllTeams() {
+  const [teamId, setTeamId] = useState();
   const [allTeams, setAllTeams] = useState();
 
   useEffect(() => {
-    fetchPlayerProfile(playerId);
-  }, [playerId]);
-  async function fetchPlayerProfile(playerId) {
+    fetchTeamProfile(teamId);
+  }, [teamId]);
+  async function fetchTeamProfile(teamId) {
     const options = {
       method: "GET",
-      url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-player-info/v1/data",
-      params: { id: playerId },
+      url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-team-listing/v1/data",
+      params: { id: teamId },
       headers: {
         "X-RapidAPI-Key": API_KEY,
         "X-RapidAPI-Host": "mlb-sport-live-data-api.p.rapidapi.com",
       },
     };
+
     try {
       const response = await axios.request(options);
       console.log(response.data);
 
-      if (response.data && response.data.player) {
-        const { firstName, lastName, position, height, weight } =
-          response.data.player;
+      if (response.data && response.data.team) {
+        const { displayName, location, color } = response.data.team;
 
-        const playerData = {
-          firstName,
-          lastName,
-          position,
-          height,
-          weight,
+        const teamData = {
+          displayName,
+          location,
+          color,
         };
 
-        setPlayerInfo(playerData);
+        setAllTeams(teamData);
       } else {
         console.error("Error: Missing data in the API response");
       }
@@ -45,25 +44,22 @@ function AllTeams() {
     }
   }
 
-  if (!playerInfo) {
+  if (!allTeams) {
     return <CircularProgress />;
   }
   const handlePlayerChange = () => {
-    const newPlayerId = "12345";
-    setPlayerId(newPlayerId);
+    const newTeamId = "12345";
+    setTeamId(newTeamId);
   };
 
   return (
     <Box>
       <Typography variant="h2" fontWeight="bold">
-        Player Info
+        Team Info
       </Typography>
-      <Typography variant="h6">
-        Name: {playerInfo.firstName} {playerInfo.lastName}
-      </Typography>
-      <Typography variant="h6">Position: {playerInfo.position.name}</Typography>
-      <Typography variant="h6">Height: {playerInfo.height}</Typography>
-      <Typography variant="h6">Weight: {playerInfo.weight}</Typography>
+      <Typography variant="h6">Display Name: {allTeams.displayName}</Typography>
+      <Typography variant="h6">Location: {allTeams.location}</Typography>
+      <Typography variant="h6">Color: {allTeams.color}</Typography>
       <Button variant="contained" onClick={handlePlayerChange}>
         Change Player
       </Button>
