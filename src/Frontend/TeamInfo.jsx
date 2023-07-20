@@ -6,10 +6,17 @@ const API_KEY = process.env.REACT_APP_BASEBALL_API_KEY;
 
 function TeamInfo() {
   const [teamInfo, setTeamInfo] = useState(null);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
     fetchTeamProfile("1");
   }, []);
+
+  useEffect(() => {
+    if (buttonClicked) {
+    }
+  }, [buttonClicked, teamInfo]);
+
   async function fetchTeamProfile(teamId) {
     const options = {
       method: "GET",
@@ -52,6 +59,15 @@ function TeamInfo() {
       console.error(error);
     }
   }
+
+  if (!buttonClicked) {
+    return (
+      <Button variant="contained" onClick={() => setButtonClicked(true)}>
+        Load Player Info
+      </Button>
+    );
+  }
+
   function handleTeamChange(teamId) {
     fetchTeamProfile(teamId);
   }
@@ -60,22 +76,113 @@ function TeamInfo() {
   }
 
   return (
-    <Box>
-      <Typography variant="h2" fontWeight="bold">
-        Team Info
-      </Typography>
-      <Typography variant="h6">Display Name: {teamInfo.displayName}</Typography>
-      <Typography variant="h6">Clubhouse: {teamInfo.clubhouse}</Typography>
-      <Typography variant="h6">Logo: {teamInfo.logo}</Typography>
-      <Typography variant="h6">
-        Record Summary: {teamInfo.recordSummary.summary}
-      </Typography>
-      <Typography variant="h6">
-        Season Summary: {teamInfo.seasonSummary.summary}
-      </Typography>
-      <Typography variant="h6">
-        Standing Summary: {teamInfo.standingSummary.summary}
-      </Typography>
+    <Box
+      sx={{
+        opacity: 0,
+        animation: "fadeIn 1s ease-in-out forwards",
+        "@keyframes fadeIn": {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+      }}
+    >
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography variant="h2" fontWeight="bold">
+          Team Info
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography variant="h6">
+          Display Name: {teamInfo.displayName}
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography variant="h6">Clubhouse: {teamInfo.clubhouse}</Typography>
+      </Box>
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography variant="h6">Logo: {teamInfo.logo}</Typography>
+      </Box>
+
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography variant="h6">
+          Record Summary: {teamInfo.recordSummary.summary}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography variant="h6">
+          Season Summary: {teamInfo.seasonSummary.summary}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography variant="h6">
+          Standing Summary: {teamInfo.standingSummary.summary}
+        </Typography>
+      </Box>
       <Button variant="contained" onClick={() => handleTeamChange("2")}>
         Change Team
       </Button>

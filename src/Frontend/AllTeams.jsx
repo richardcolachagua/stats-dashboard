@@ -7,10 +7,17 @@ const API_KEY = process.env.REACT_APP_BASEBALL_API_KEY;
 function AllTeams() {
   const [teamId, setTeamId] = useState();
   const [allTeams, setAllTeams] = useState();
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
     fetchTeamProfile(teamId);
   }, [teamId]);
+
+  useEffect(() => {
+    if (buttonClicked) {
+    }
+  }, [buttonClicked, teamId]);
+
   async function fetchTeamProfile(teamId) {
     const options = {
       method: "GET",
@@ -45,6 +52,14 @@ function AllTeams() {
     }
   }
 
+  if (!buttonClicked) {
+    return (
+      <Button variant="contained" onClick={() => setButtonClicked(true)}>
+        Load Team Info
+      </Button>
+    );
+  }
+
   if (!allTeams) {
     return <CircularProgress />;
   }
@@ -64,21 +79,67 @@ function AllTeams() {
         },
       }}
     >
-      <Typography
-        variant="h2"
-        sx={{ fontWeight: "bold", fontSize: "2.5rem", color: "#004687" }}
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
       >
-        Team Info
-      </Typography>
-      <Typography sx={{ fontSize: "1.2rem" }}>
-        Display Name: {allTeams.displayName}
-      </Typography>
-      <Typography sx={{ fontStyle: "italic" }}>
-        Location: {allTeams.location}
-      </Typography>
-      <Typography sx={{ fontSize: "1.2rem" }}>
-        Color: {allTeams.color}
-      </Typography>
+        <Typography
+          variant="h2"
+          sx={{ fontWeight: "bold", fontSize: "2.5rem", color: "#004687" }}
+        >
+          Team Info
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography sx={{ fontSize: "1.2rem" }}>
+          Display Name: {allTeams.displayName}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography sx={{ fontStyle: "italic" }}>
+          Location: {allTeams.location}
+        </Typography>
+      </Box>
+
+      <Box
+        sx={{
+          opacity: 0,
+          animation: "fadeIn 1s ease-in-out forwards",
+          "@keyframes fadeIn": {
+            "0%": { opacity: 0 },
+            "100%": { opacity: 1 },
+          },
+        }}
+      >
+        <Typography sx={{ fontSize: "1.2rem" }}>
+          Color: {allTeams.color}
+        </Typography>
+      </Box>
       <Button
         variant="contained"
         sx={{ marginTop: "1rem", backgroundColor: "#E81828" }}
