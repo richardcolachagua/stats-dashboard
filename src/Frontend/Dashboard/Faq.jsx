@@ -28,12 +28,11 @@ const FAQ = () => {
             <Typography sx={{ fontSize: "1.2rem", marginBottom: "1rem" }}>
               Built with: (Insert images here)
             </Typography>
-            <image
-              src="stats-dashboard/assets/Visual_Studio_Code.png"
+            <img
+              src="stats-dashboard/public/assets/Visual_Studio_Code.svg.png"
               alt="vs-code"
-              width="100px"
-              height="100px"
             />
+            <img src="stats-dashboard/assets/axios_logo.png" alt="axios" />
           </Box>
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -59,6 +58,11 @@ const FAQ = () => {
             "0%": { opacity: 0 },
             "100%": { opacity: 1 },
           },
+          padding: "1rem", // Moved outside @keyframes fadeIn
+          borderRadius: "16px", // Moved outside @keyframes fadeIn
+          width: "600px", // Moved outside @keyframes fadeIn
+          height: "300px", // Moved outside @keyframes fadeIn
+          marginTop: "2rem", // Moved outside @keyframes fadeIn
         }}
       >
         <Typography
@@ -68,6 +72,7 @@ const FAQ = () => {
             fontSize: "1.5rem",
             color: "#004687",
             marginBottom: "1rem",
+            textAlign: "center",
           }}
         >
           An MLB Dashboard that renders Player and Team Information. The purpose
