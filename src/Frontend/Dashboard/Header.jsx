@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -15,6 +16,9 @@ const Header = () => {
         <Typography variant="h3" fontWeight={300}>
           Created by Richard Colachagua
         </Typography>
+        <Link to="/https://rapidapi.com/Creativesdev/api/mlb-sport-live-data-api/">
+          Go to API
+        </Link>
       </Stack>
     </Box>
   );

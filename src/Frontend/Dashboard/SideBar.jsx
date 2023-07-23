@@ -30,7 +30,7 @@ const SideBar = () => {
   return (
     <Drawer anchor="left" open={isOpen} onClose={toggleDrawer(false)}>
       <List>
-        <ListItem button component={Link} to="/team-info">
+        {/* <ListItem button component={Link} to="/team-info">
           <ListItemIcon>
             <AccountBoxIcon />
           </ListItemIcon>
@@ -53,9 +53,17 @@ const SideBar = () => {
             <GroupIcon />
           </ListItemIcon>
           <ListItemText primary="AllTeams" />
+        </ListItem> */}
+        <ListItem button component={Link}>
+          <ListItemText primary="How I built this Dashboard" />
+          <Link to="/FAQ">
+            <ListItemText
+              sx={{ color: "white" }}
+              primary="How I built this dashboard"
+            />
+          </Link>
         </ListItem>
       </List>
-      <Typography variant="h5">Sidebar Content</Typography>
     </Drawer>
   );
 };
