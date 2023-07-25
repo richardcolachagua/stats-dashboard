@@ -6,17 +6,19 @@ const API_KEY = process.env.REACT_APP_BASEBALL_API_KEY;
 
 function AllTeams() {
   const [teamId, setTeamId] = useState();
-  const [allTeams, setAllTeams] = useState();
-  const [buttonClicked, setButtonClicked] = useState(false);
+  const [allTeams, setAllTeams] = useState(null);
+  const [loading, setLoading] = useState(null);
+  const [error, setError] = useState(null);
+  // const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
     fetchTeamProfile(teamId);
   }, [teamId]);
 
-  useEffect(() => {
-    if (buttonClicked) {
-    }
-  }, [buttonClicked, teamId]);
+  // useEffect(() => {
+  //   if (buttonClicked) {
+  //   }
+  // }, [buttonClicked, teamId]);
 
   async function fetchTeamProfile(teamId) {
     const options = {
@@ -28,6 +30,11 @@ function AllTeams() {
         "X-RapidAPI-Host": "mlb-sport-live-data-api.p.rapidapi.com",
       },
     };
+
+    // In the try-catch block, set loading to false after the API call is completed,
+    // whether it was successful or not.
+    // If there is missing data or an error in the API response, set the error state
+    // accordingly to display a user-friendly message.
 
     try {
       const response = await axios.request(options);
@@ -44,24 +51,30 @@ function AllTeams() {
         };
 
         setAllTeams(teamData);
+        setLoading(false);
       } else {
-        console.error("Error: Missing data in the API response");
+        setError("Error: Missing data in the API response");
+        setLoading(false);
       }
     } catch (error) {
-      console.error(error);
+      setError("An error occurred while fetching data from the API");
     }
   }
 
-  if (!buttonClicked) {
-    return (
-      <Button variant="contained" onClick={() => setButtonClicked(true)}>
-        Load Team Info
-      </Button>
-    );
+  // if (!buttonClicked) {
+  //   return (
+  //     <Button variant="contained" onClick={() => setButtonClicked(true)}>
+  //       Load Team Info
+  //     </Button>
+  //   );
+  // }
+
+  if (loading) {
+    return <CircularProgress />;
   }
 
-  if (!allTeams) {
-    return <CircularProgress />;
+  if (error) {
+    return <Typography variant="body1">{error}</Typography>;
   }
   const handleTeamChange = () => {
     const newTeamId = teamId;
