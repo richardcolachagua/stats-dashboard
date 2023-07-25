@@ -5,6 +5,9 @@ import { Box, Typography, CircularProgress, Button } from "@mui/material";
 const API_KEY = process.env.REACT_APP_BASEBALL_API_KEY;
 
 function AllTeams() {
+  // Added state variables loading and error to handle the loading state and
+  // store any error messages that occur during API calls.
+
   const [teamId, setTeamId] = useState();
   const [allTeams, setAllTeams] = useState(null);
   const [loading, setLoading] = useState(null);
@@ -21,6 +24,8 @@ function AllTeams() {
   // }, [buttonClicked, teamId]);
 
   async function fetchTeamProfile(teamId) {
+    setLoading(true);
+    setError(null);
     const options = {
       method: "GET",
       url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-team-listing/v1/data",

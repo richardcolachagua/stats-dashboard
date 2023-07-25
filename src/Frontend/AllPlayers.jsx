@@ -7,17 +7,22 @@ const API_KEY = process.env.REACT_APP_BASEBALL_API_KEY;
 function AllPlayers() {
   const [playerId, setPlayerId] = useState();
   const [allPlayers, setAllPlayers] = useState();
-  const [buttonClicked, setButtonClicked] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  //const [buttonClicked, setButtonClicked] = useState();
 
   useEffect(() => {
     fetchPlayerProfile(allPlayers);
   }, [allPlayers]);
 
-  useEffect(() => {
-    if (buttonClicked) {
-    }
-  }, [buttonClicked, playerId]);
+  // useEffect(() => {
+  //   if (buttonClicked) {
+  //   }
+  // }, [buttonClicked, playerId]);
+
   async function fetchPlayerProfile(allPlayers) {
+    setLoading(true);
+    setError(null);
     const options = {
       method: "GET",
       url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-player-listing/v1/data",
@@ -27,12 +32,16 @@ function AllPlayers() {
         "X-RapidAPI-Host": "mlb-sport-live-data-api.p.rapidapi.com",
       },
     };
+    // In the try-catch block, set loading to false after the API call is completed,
+    // whether it was successful or not.
+    // If there is missing data or an error in the API response, set the error state
+    // accordingly to display a user-friendly message.
 
     try {
       const response = await axios.request(options);
       console.log(response.data);
 
-      if (response.data && response.data) {
+      if (response.data && response.data.AllPlayers) {
         const {
           firstName,
           lastName,
@@ -56,15 +65,22 @@ function AllPlayers() {
         };
         setAllPlayers(allPlayerData);
       } else {
-        console.error("Error: Missing data in the API response");
+        setError("Error: Missing data in the API response");
+        setLoading(false);
       }
     } catch (error) {
-      console.error(error);
+      setError("An error occurred while fetching data from the API");
+      setLoading(false);
     }
 
-    if (!buttonClicked) {
+    if (loading) {
       return <CircularProgress />;
     }
+
+    if (error) {
+      return <Typography variant="body1">{error}</Typography>;
+    }
+
     const handlePlayerChange = () => {
       const newPlayerId = playerId;
       setPlayerId(newPlayerId);
