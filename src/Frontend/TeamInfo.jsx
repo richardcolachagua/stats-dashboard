@@ -94,7 +94,7 @@ function TeamInfo() {
   }
 
   if (error) {
-    return <Typography varaint="body1">{error}</Typography>;
+    return <Typography variant="body1">{error}</Typography>;
   }
 
   return (

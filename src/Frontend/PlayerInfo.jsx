@@ -7,18 +7,22 @@ const API_KEY = process.env.REACT_APP_BASEBALL_API_KEY;
 function PlayerInfo() {
   const [playerId, setPlayerId] = useState("32045");
   const [playerInfo, setPlayerInfo] = useState(null);
-  const [buttonClicked, setButtonClicked] = useState(false);
+  const [loading, setLoading] = useState(null);
+  const [error, setError] = useState(null);
+  //const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
     fetchPlayerProfile(playerId);
   }, [playerId]);
 
-  useEffect(() => {
-    if (buttonClicked) {
-    }
-  }, [buttonClicked, playerId]);
+  // useEffect(() => {
+  //   if (buttonClicked) {
+  //   }
+  // }, [buttonClicked, playerId]);
 
   async function fetchPlayerProfile(playerId) {
+    setLoading(true);
+    setError(null);
     const options = {
       method: "GET",
       url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-player-info/v1/data",
@@ -46,24 +50,31 @@ function PlayerInfo() {
         };
 
         setPlayerInfo(playerData);
+        setLoading(false);
       } else {
-        console.error("Error: Missing data in the API response");
+        setError("Error: Missing data in the API response");
+        setLoading(false);
       }
     } catch (error) {
-      console.error(error);
+      setError("An error occurred while fetching data the API response");
+      setLoading(false);
     }
   }
 
-  if (!buttonClicked) {
-    return (
-      <Button variant="contained" onClick={() => setButtonClicked(true)}>
-        Load Player Info
-      </Button>
-    );
+  // if (!buttonClicked) {
+  //   return (
+  //     <Button variant="contained" onClick={() => setButtonClicked(true)}>
+  //       Load Player Info
+  //     </Button>
+  //   );
+  // }
+
+  if (loading) {
+    return <CircularProgress />;
   }
 
-  if (!playerInfo) {
-    return <CircularProgress />;
+  if (error) {
+    return <Typography variant="body1">{error}</Typography>;
   }
   const handlePlayerChange = () => {
     const newPlayerId = "12345";
