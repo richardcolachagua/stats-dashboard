@@ -12,18 +12,9 @@ function TeamInfo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // const [buttonClicked, setButtonClicked] = useState(false);
-
   useEffect(() => {
     fetchTeamProfile("1");
   }, []);
-
-  //empty block no logic in useffect
-
-  // useEffect(() => {
-  //   if (buttonClicked) {
-  //   }
-  // }, [buttonClicked, teamInfo]);
 
   async function fetchTeamProfile(teamId) {
     setLoading(true);
@@ -77,14 +68,6 @@ function TeamInfo() {
       setLoading(false);
     }
   }
-
-  // if (!buttonClicked) {
-  //   return (
-  //     <Button variant="contained" onClick={() => setButtonClicked(true)}>
-  //       Load Player Info
-  //     </Button>
-  //   );
-  // }
 
   function handleTeamChange(teamId) {
     fetchTeamProfile(teamId);

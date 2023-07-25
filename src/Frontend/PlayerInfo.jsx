@@ -5,20 +5,17 @@ import { Box, Typography, CircularProgress, Button } from "@mui/material";
 const API_KEY = process.env.REACT_APP_BASEBALL_API_KEY;
 
 function PlayerInfo() {
+  // Added state variables loading and error to handle the loading state and
+  // store any error messages that occur during API calls.
+
   const [playerId, setPlayerId] = useState("32045");
   const [playerInfo, setPlayerInfo] = useState(null);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
-  //const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
     fetchPlayerProfile(playerId);
   }, [playerId]);
-
-  // useEffect(() => {
-  //   if (buttonClicked) {
-  //   }
-  // }, [buttonClicked, playerId]);
 
   async function fetchPlayerProfile(playerId) {
     setLoading(true);
@@ -32,6 +29,11 @@ function PlayerInfo() {
         "X-RapidAPI-Host": "mlb-sport-live-data-api.p.rapidapi.com",
       },
     };
+
+    // In the try-catch block, set loading to false after the API call is completed,
+    // whether it was successful or not.
+    // If there is missing data or an error in the API response, set the error state
+    // accordingly to display a user-friendly message.
 
     try {
       const response = await axios.request(options);
@@ -60,14 +62,6 @@ function PlayerInfo() {
       setLoading(false);
     }
   }
-
-  // if (!buttonClicked) {
-  //   return (
-  //     <Button variant="contained" onClick={() => setButtonClicked(true)}>
-  //       Load Player Info
-  //     </Button>
-  //   );
-  // }
 
   if (loading) {
     return <CircularProgress />;

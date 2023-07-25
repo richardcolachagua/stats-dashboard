@@ -12,16 +12,10 @@ function AllTeams() {
   const [allTeams, setAllTeams] = useState(null);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
-  // const [buttonClicked, setButtonClicked] = useState(false);
 
   useEffect(() => {
     fetchTeamProfile(teamId);
   }, [teamId]);
-
-  // useEffect(() => {
-  //   if (buttonClicked) {
-  //   }
-  // }, [buttonClicked, teamId]);
 
   async function fetchTeamProfile(teamId) {
     setLoading(true);
@@ -65,14 +59,6 @@ function AllTeams() {
       setError("An error occurred while fetching data from the API");
     }
   }
-
-  // if (!buttonClicked) {
-  //   return (
-  //     <Button variant="contained" onClick={() => setButtonClicked(true)}>
-  //       Load Team Info
-  //     </Button>
-  //   );
-  // }
 
   if (loading) {
     return <CircularProgress />;

@@ -4,25 +4,9 @@ import { Box, Typography, CircularProgress, Button } from "@mui/material";
 
 const API_KEY = process.env.REACT_APP_BASEBALL_API_KEY;
 
-function AllPlayers() {
-  const [playerId, setPlayerId] = useState();
-  const [allPlayers, setAllPlayers] = useState();
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  //const [buttonClicked, setButtonClicked] = useState();
 
-  useEffect(() => {
-    fetchPlayerProfile(allPlayers);
-  }, [allPlayers]);
+  async function fetchPlayerProfile(playerId) {
 
-  // useEffect(() => {
-  //   if (buttonClicked) {
-  //   }
-  // }, [buttonClicked, playerId]);
-
-  async function fetchPlayerProfile(allPlayers) {
-    setLoading(true);
-    setError(null);
     const options = {
       method: "GET",
       url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-player-listing/v1/data",
@@ -63,15 +47,24 @@ function AllPlayers() {
           dateOfBirth,
           debutYear,
         };
-        setAllPlayers(allPlayerData);
-      } else {
-        setError("Error: Missing data in the API response");
-        setLoading(false);
+
+return allPlayerData;
+ } else {
+        throw new Error("Error: Missing data in the API response");
+       
       }
     } catch (error) {
-      setError("An error occurred while fetching data from the API");
-      setLoading(false);
+      throw new Error("An error occurred while fetching data from the API");
     }
+  }
+    function AllPlayers() {
+      // Added state variables loading and error to handle the loading state and
+      // store any error messages that occur during API calls.
+      const [playerId, setPlayerId] = useState();
+      const [allPlayers, setAllPlayers] = useState(null);
+      const [loading, setLoading] = useState(true);
+      const [error, setError] = useState(null);
+    
 
     if (loading) {
       return <CircularProgress />;
