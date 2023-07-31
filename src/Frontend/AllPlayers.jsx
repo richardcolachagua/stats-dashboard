@@ -209,7 +209,7 @@ return allPlayerData;
           <Typography sx={{ fontSize: "1.2rem" }}>
             Date of Birth {allPlayers.dateOfBirth}
           </Typography>
-        </Box>{" "}
+        </Box>
         <Box
           sx={{
             opacity: 0,
@@ -234,6 +234,5 @@ return allPlayerData;
       </Box>
     );
   }
-}
 
 export default AllPlayers;
