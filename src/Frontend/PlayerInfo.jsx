@@ -14,12 +14,20 @@ function PlayerInfo() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchPlayerProfile(playerId);
+    async function fetchData() {
+      try {
+        const response = await fetchPlayerProfile(playerId);
+        setPlayerInfo(response);
+        setLoading(false);
+      } catch (error) {
+        setError("An error occurred while fetching data from the API");
+        setLoading(false);
+      }
+    }
+    fetchData();
   }, [playerId]);
 
   async function fetchPlayerProfile(playerId) {
-    setLoading(true);
-    setError(null);
     const options = {
       method: "GET",
       url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-player-info/v1/data",
@@ -29,11 +37,6 @@ function PlayerInfo() {
         "X-RapidAPI-Host": "mlb-sport-live-data-api.p.rapidapi.com",
       },
     };
-
-    // In the try-catch block, set loading to false after the API call is completed,
-    // whether it was successful or not.
-    // If there is missing data or an error in the API response, set the error state
-    // accordingly to display a user-friendly message.
 
     try {
       const response = await axios.request(options);
@@ -51,15 +54,12 @@ function PlayerInfo() {
           weight,
         };
 
-        setPlayerInfo(playerData);
-        setLoading(false);
+        return playerData;
       } else {
-        setError("Error: Missing data in the API response");
-        setLoading(false);
+        throw new Error("Error: Missing data in the API response");
       }
     } catch (error) {
-      setError("An error occurred while fetching data the API response");
-      setLoading(false);
+      throw new Error("An error occurred while fetching data the API response");
     }
   }
 
@@ -86,16 +86,7 @@ function PlayerInfo() {
         },
       }}
     >
-      <Box
-        sx={{
-          opacity: 0,
-          animation: "fadeIn 1s ease-in-out forwards",
-          "@keyframes fadeIn": {
-            "0%": { opacity: 0 },
-            "100%": { opacity: 1 },
-          },
-        }}
-      >
+      <Box sx={{ opacity: 0 }}>
         <Typography
           variant="h2"
           sx={{ fontWeight: "bold", fontSize: "2.5rem", color: "#004687" }}
@@ -103,71 +94,79 @@ function PlayerInfo() {
           Player Info
         </Typography>
       </Box>
-
-      <Box
-        sx={{
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          transition: "box-shadow 0.3s ease",
-          "&:hover": {
-            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-          },
-        }}
-      >
-        <Typography sx={{ fontSize: "1.2rem" }}>
-          Name: {playerInfo.firstName} {playerInfo.lastName}
-        </Typography>
-      </Box>
-
-      <Box
-        sx={{
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          transition: "box-shadow 0.3s ease",
-          "&:hover": {
-            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-          },
-        }}
-      >
-        <Typography sx={{ fontStyle: "italic" }}>
-          Position: {playerInfo.position.name}
-        </Typography>
-      </Box>
-
-      <Box
-        sx={{
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          transition: "box-shadow 0.3s ease",
-          "&:hover": {
-            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-          },
-        }}
-      >
-        <Typography sx={{ fontStyle: "italic" }}>
-          Height: {playerInfo.height}
-        </Typography>
-      </Box>
-
-      <Box
-        sx={{
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          transition: "box-shadow 0.3s ease",
-          "&:hover": {
-            boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
-          },
-        }}
-      >
-        <Typography sx={{ fontSize: "1.2rem" }}>
-          Weight: {playerInfo.weight}
-        </Typography>
-      </Box>
-      <Button
-        variant="contained"
-        sx={{ marginTop: "!rem", backgroundColor: "#E8128" }}
-        onClick={handlePlayerChange}
-      >
-        Change Player
-      </Button>
+      {playerInfo && (
+        <Box
+          sx={{
+            opacity: 0,
+            animation: "fadeIn 1s ease-in-out forwards",
+            "@keyframes fadeIn": {
+              "0%": { opacity: 0 },
+              "100%": { opacity: 1 },
+            },
+          }}
+        >
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography sx={{ fontSize: "1.2rem" }}>
+              Name: {playerInfo.firstName} {playerInfo.lastName}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography sx={{ fontStyle: "italic" }}>
+              Position: {playerInfo.position.name}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography sx={{ fontStyle: "italic" }}>
+              Height: {playerInfo.height}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography sx={{ fontSize: "1.2rem" }}>
+              Weight: {playerInfo.weight}
+            </Typography>
+          </Box>
+          <Button
+            variant="contained"
+            sx={{ marginTop: "1rem", backgroundColor: "#E81828" }}
+            onClick={handlePlayerChange}
+          >
+            Change Player
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
-
 export default PlayerInfo;
