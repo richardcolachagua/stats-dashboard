@@ -37,6 +37,7 @@ function AllPlayers() {
 
     try {
       const response = await axios.request(options);
+      console.log(response.data);
 
       if (response.data && response.data.AllPlayers) {
         const {
@@ -65,6 +66,10 @@ function AllPlayers() {
         throw new Error("Error: Missing data in the API response");
       }
     } catch (error) {
+      console.error(
+        "Error fetching all players",
+        error.response || error.message
+      );
       throw new Error("An error occurred while fetching data from the API");
     }
   }
@@ -74,7 +79,12 @@ function AllPlayers() {
   if (error) {
     return <Typography variant="body1">{error}</Typography>;
   }
-  const handlePlayerChange = () => {};
+  const handlePlayerChange = () => {
+    const newPlayerId = "";
+    setPlayerId(null);
+    setLoading(true);
+    fetchPlayerProfile(newPlayerId);
+  };
 
   return (
     <Box

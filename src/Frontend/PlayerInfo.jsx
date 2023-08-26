@@ -59,6 +59,10 @@ function PlayerInfo() {
         throw new Error("Error: Missing data in the API response");
       }
     } catch (error) {
+      console.error(
+        "Error fetching player info:",
+        error.response || error.message
+      );
       throw new Error("An error occurred while fetching data the API response");
     }
   }

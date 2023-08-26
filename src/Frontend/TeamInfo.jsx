@@ -15,7 +15,7 @@ function TeamInfo() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await fetchTeamProfile();
+        const response = await fetchTeamProfile(); // Fetch team profile data
         setTeamInfo(response);
         setLoading(false);
       } catch (error) {
@@ -43,10 +43,12 @@ function TeamInfo() {
     // accordingly to display a user-friendly message.
 
     try {
-      const response = await axios.request(options);
+      const response = await axios.request(options); // Make API request
       console.log(response.data);
 
       if (response.data && response.data.team) {
+        // Extract required team information from the API response
+
         const {
           displayName,
           clubhouse,
@@ -69,23 +71,27 @@ function TeamInfo() {
         throw new Error("Error: Missing data in the API response");
       }
     } catch (error) {
+      console.error(
+        "Error fetching team profile",
+        error.response || error.message
+      );
       throw new Error("An error occurered while fetching data from the API");
     }
   }
 
   if (loading) {
-    return <CircularProgress />;
+    return <CircularProgress />; // Display loading indicator
   }
 
   if (error) {
-    return <Typography variant="body1">{error}</Typography>;
+    return <Typography variant="body1">{error}</Typography>; // Display error message
   }
 
   const handleTeamChange = () => {
-    const newTeamId = "3";
-    setTeamInfo(null);
-    setLoading(true);
-    fetchTeamProfile(newTeamId);
+    const newTeamId = "3"; // New team ID to fetch
+    setTeamInfo(null); // Clear existing data
+    setLoading(true); // Show loading indicator
+    fetchTeamProfile(newTeamId); // Fetch new team data
   };
 
   return (

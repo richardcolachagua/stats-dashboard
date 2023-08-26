@@ -50,6 +50,10 @@ function AllTeams() {
         throw new Error("Error: Missing data in the API response");
       }
     } catch (error) {
+      console.error(
+        "Error fetching all teams:",
+        error.response || error.message
+      );
       throw new Error("An error occurred while fetching data from the API");
     }
   }
@@ -63,7 +67,10 @@ function AllTeams() {
   }
 
   const handleTeamChange = () => {
-    // Logic for changing team
+    const newTeamId = ""; // New team ID to fetch
+    setTeamId(null); // Clear existing data
+    setLoading(true); // Show loading indicator
+    fetchTeamProfile(newTeamId); // Fetch new team data
   };
 
   return (
