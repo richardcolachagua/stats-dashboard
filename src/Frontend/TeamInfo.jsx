@@ -13,12 +13,20 @@ function TeamInfo() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchTeamProfile("1");
+    async function fetchData() {
+      try {
+        const response = await fetchTeamProfile();
+        setTeamInfo(response);
+        setLoading(false);
+      } catch (error) {
+        setError("An error occurred while fetching data from the API");
+        setLoading(false);
+      }
+    }
+    fetchData();
   }, []);
 
   async function fetchTeamProfile(teamId) {
-    setLoading(true);
-    setError(null);
     const options = {
       method: "GET",
       url: "https://mlb-sport-live-data-api.p.rapidapi.com/mlb-team-info/v1/data",
@@ -56,22 +64,15 @@ function TeamInfo() {
           seasonSummary,
           standingSummary,
         };
-
-        setTeamInfo(teamData);
-        setLoading(false);
+        return teamData;
       } else {
-        setError("Error: Missing data in the API response");
-        setLoading(false);
+        throw new Error("Error: Missing data in the API response");
       }
     } catch (error) {
-      setError("An error occurered while fetching data from the API");
-      setLoading(false);
+      throw new Error("An error occurered while fetching data from the API");
     }
   }
 
-  function handleTeamChange(teamId) {
-    fetchTeamProfile(teamId);
-  }
   if (loading) {
     return <CircularProgress />;
   }
@@ -79,6 +80,13 @@ function TeamInfo() {
   if (error) {
     return <Typography variant="body1">{error}</Typography>;
   }
+
+  const handleTeamChange = () => {
+    const newTeamId = "3";
+    setTeamInfo(null);
+    setLoading(true);
+    fetchTeamProfile(newTeamId);
+  };
 
   return (
     <Box
@@ -94,103 +102,110 @@ function TeamInfo() {
       <Box
         sx={{
           opacity: 0,
-          animation: "fadeIn 1s ease-in-out forwards",
-          "@keyframes fadeIn": {
-            "0%": { opacity: 0 },
-            "100%": { opacity: 1 },
-          },
         }}
       >
-        <Typography variant="h2" fontWeight="bold">
+        <Typography
+          variant="h2"
+          sx={{ fontWeight: "bold", fontSize: "2.5rem", color: "#004687" }}
+        >
           Team Info
         </Typography>
       </Box>
-      <Box
-        sx={{
-          opacity: 0,
-          animation: "fadeIn 1s ease-in-out forwards",
-          "@keyframes fadeIn": {
-            "0%": { opacity: 0 },
-            "100%": { opacity: 1 },
-          },
-        }}
-      >
-        <Typography variant="h6">
-          Display Name: {teamInfo.displayName}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          opacity: 0,
-          animation: "fadeIn 1s ease-in-out forwards",
-          "@keyframes fadeIn": {
-            "0%": { opacity: 0 },
-            "100%": { opacity: 1 },
-          },
-        }}
-      >
-        <Typography variant="h6">Clubhouse: {teamInfo.clubhouse}</Typography>
-      </Box>
-      <Box
-        sx={{
-          opacity: 0,
-          animation: "fadeIn 1s ease-in-out forwards",
-          "@keyframes fadeIn": {
-            "0%": { opacity: 0 },
-            "100%": { opacity: 1 },
-          },
-        }}
-      >
-        <Typography variant="h6">Logo: {teamInfo.logo}</Typography>
-      </Box>
+      {teamInfo && (
+        <Box
+          sx={{
+            opacity: 0,
+            animation: "fadeIn 1s ease-in-out forwards",
+            "@keyframes fadeIn": {
+              "0%": { opacity: 0 },
+              "100%": { opacity: 1 },
+            },
+          }}
+        >
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography variant="h6">
+              Display Name: {teamInfo.displayName}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography variant="h6">
+              Clubhouse: {teamInfo.clubhouse}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography variant="h6">Logo: {teamInfo.logo}</Typography>
+          </Box>
 
-      <Box
-        sx={{
-          opacity: 0,
-          animation: "fadeIn 1s ease-in-out forwards",
-          "@keyframes fadeIn": {
-            "0%": { opacity: 0 },
-            "100%": { opacity: 1 },
-          },
-        }}
-      >
-        <Typography variant="h6">
-          Record Summary: {teamInfo.recordSummary.summary}
-        </Typography>
-      </Box>
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography variant="h6">
+              Record Summary: {teamInfo.recordSummary.summary}
+            </Typography>
+          </Box>
 
-      <Box
-        sx={{
-          opacity: 0,
-          animation: "fadeIn 1s ease-in-out forwards",
-          "@keyframes fadeIn": {
-            "0%": { opacity: 0 },
-            "100%": { opacity: 1 },
-          },
-        }}
-      >
-        <Typography variant="h6">
-          Season Summary: {teamInfo.seasonSummary.summary}
-        </Typography>
-      </Box>
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography variant="h6">
+              Season Summary: {teamInfo.seasonSummary.summary}
+            </Typography>
+          </Box>
 
-      <Box
-        sx={{
-          opacity: 0,
-          animation: "fadeIn 1s ease-in-out forwards",
-          "@keyframes fadeIn": {
-            "0%": { opacity: 0 },
-            "100%": { opacity: 1 },
-          },
-        }}
-      >
-        <Typography variant="h6">
-          Standing Summary: {teamInfo.standingSummary.summary}
-        </Typography>
-      </Box>
-      <Button variant="contained" onClick={() => handleTeamChange("2")}>
-        Change Team
-      </Button>
+          <Box
+            sx={{
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+              transition: "box-shadow 0.3s ease",
+              "&:hover": {
+                boxShadow: "0 8px 16px rgba(0, 0, 0, 0.2)",
+              },
+            }}
+          >
+            <Typography variant="h6">
+              Standing Summary: {teamInfo.standingSummary.summary}
+            </Typography>
+          </Box>
+          <Button variant="contained" onClick={() => handleTeamChange("2")}>
+            Change Team
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
